@@ -1,0 +1,50 @@
+{
+    "env": {
+        "es2020": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb",
+        "prettier",
+        "prettier/react",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 11,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": "error",
+        "react/jsx-filename-extension": [2, { "extensions": ["js", ".jsx", ".ts", ".tsx"]}],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "ts": "never",
+              "tsx": "never"
+            }
+          ],
+        "react/style-prop-object": "off",
+        "camelcase": "off",
+        "react/prop-types": "off",
+        "import/prefer-default-export": "off",
+        "@typescript-eslint/ban-types": "off",
+        "react/jsx-props-no-spreading": "off"
+    },
+    "settings": {
+        "import/resolver": {
+          "typescript": {}
+        }
+      }
+}

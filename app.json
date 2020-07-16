@@ -1,0 +1,28 @@
+{
+  "name": "crypto-watcher",
+  "displayName": "crypto-watcher",
+  "expo": {
+    "name": "crypto-watcher",
+    "slug": "crypto-watcher",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "crypto-watcher"
+    },
+    "sourceExts": [
+      "expo.ts",
+      "expo.tsx",
+      "expo.js",
+      "expo.jsx",
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "wasm",
+      "svg"
+    ]
+  }
+}
