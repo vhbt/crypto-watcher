@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { View, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
 
 import { Container } from './styles';
 
@@ -13,14 +11,7 @@ import EmptyAddressList from '../../components/EmptyAddressList';
 import AddressCard from '../../components/AddressCard';
 
 const Dashboard: React.FC = () => {
-  const { addresses, updateAddressAmount } = useData();
-  // const addressesRef = useRef(addresses);
-
-  // useEffect(() => {
-  //   addressesRef.current.forEach(async entry => {
-  //     updateAddressAmount(entry.address);
-  //   });
-  // }, [addressesRef, updateAddressAmount]);
+  const { addresses, loadingBalances } = useData();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfcff' }}>
@@ -34,9 +25,10 @@ const Dashboard: React.FC = () => {
             return (
               <AddressCard
                 address={item.address}
-                amount={item.amount}
+                amount={item.confirmed}
                 coinImage={item.coinImage}
                 coinName={item.coinName}
+                loading={loadingBalances}
               />
             );
           }}

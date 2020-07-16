@@ -17,7 +17,7 @@ const EmptyAddressList: React.FC = () => {
     <Container>
       <Text>You don&apos;t have any address.{'\n'}Add a new one.</Text>
       <Graphic width={width * 0.4} height={height * 0.4} />
-      <Button onPress={() => navigate('SelectAddAddress')}>Add account</Button>
+      <Button onPress={() => navigate('AddAddressSelect')}>Add account</Button>
     </Container>
   );
 };

@@ -1,19 +1,20 @@
 import styled from 'styled-components/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
-export const Container = styled.View`
+export const Container = styled(LinearGradient)`
   padding: 12px;
   margin: 8px 12px;
-  border-radius: 6px;
+  border-radius: 12px;
   background-color: #fff;
 `;
 
 export const DataContainer = styled.View`
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
 `;
 
 export const CoinInfo = styled.View`
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin-top: 5px;
@@ -22,19 +23,19 @@ export const CoinInfo = styled.View`
 export const CoinImage = styled.Image`
   width: 50px;
   height: 50px;
-  margin-right: 10px;
+  margin: 0 10px;
 `;
 
 export const Address = styled.Text`
-  color: #13183c;
+  color: #fff;
   font-size: 18px;
   max-width: 80%;
-  font-family: 'Roboto_500Medium';
+  font-family: 'Karla_400Regular';
 `;
 
 export const Value = styled.Text`
-  color: #13183c;
+  color: #fff;
   font-size: 24px;
-  font-family: 'Roboto_500Medium';
-  margin-top: 10px;
+  font-family: 'Karla_700Bold';
+  margin-bottom: 10px;
 `;

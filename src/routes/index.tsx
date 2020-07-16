@@ -1,10 +1,10 @@
 import React from 'react';
+import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import * as SplashScreen from 'expo-splash-screen';
 
 import Dashboard from '../pages/Dashboard';
-import SelectAddAddress from '../pages/SelectAddAddress';
-import AddAddress from '../pages/AddAddress';
+import AddAddressSelect from '../pages/AddAddressSelect';
+import AddAddressFinish from '../pages/AddAddressFinish';
 
 import { useData } from '../hooks/data';
 
@@ -14,17 +14,7 @@ const Routes: React.FC = () => {
   const { loaded } = useData();
 
   if (!loaded) {
-    const preventAutoHide = async () => {
-      await SplashScreen.preventAutoHideAsync();
-    };
-
-    preventAutoHide();
-  } else {
-    const hideSplashScreen = async () => {
-      await SplashScreen.hideAsync();
-    };
-
-    hideSplashScreen();
+    return <View />;
   }
 
   return (
@@ -34,8 +24,8 @@ const Routes: React.FC = () => {
       }}
     >
       <App.Screen name="Dashboard" component={Dashboard} />
-      <App.Screen name="SelectAddAddress" component={SelectAddAddress} />
-      <App.Screen name="AddAddress" component={AddAddress} />
+      <App.Screen name="AddAddressSelect" component={AddAddressSelect} />
+      <App.Screen name="AddAddressFinish" component={AddAddressFinish} />
     </App.Navigator>
   );
 };

@@ -20,13 +20,19 @@ export const HeaderItems = styled.View`
 export const Back = styled.TouchableOpacity``;
 
 export const Card = styled.View`
-  background: #fff;
-  border-top-right-radius: 24px;
-  border-top-left-radius: 24px;
-  position: absolute;
   height: 100%;
   width: 100%;
+  background: #fff;
+  position: absolute;
+  border-top-right-radius: 24px;
+  border-top-left-radius: 24px;
   margin-top: ${Dimensions.get('window').width * 0.25}px;
+  padding: 30px 25px;
+`;
+
+export const CardTitle = styled.Text`
+  color: #8a8a8a;
+  margin-bottom: 15px;
 `;
 
 export const Title = styled.Text`

@@ -7,11 +7,13 @@ import React, {
 } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { Alert } from 'react-native';
 import api from '../services/api';
 
 interface Address {
   address: string;
-  amount?: string;
+  confirmed?: number;
+  unconfirmed?: number;
   coinImage: string;
   coinName: string;
 }
@@ -23,8 +25,16 @@ interface DataState {
 interface DataProviderData {
   addresses: Address[];
   loaded: boolean;
+  loadingBalances: boolean;
   addAddress(data: Address): Promise<void>;
-  updateAddressAmount(address: string): Promise<void>;
+  updateAddressAmount(address: Address[]): Promise<void>;
+  deleteAddress(address: string): Promise<void>;
+}
+
+interface ResponseAddressData {
+  addr: string;
+  confirmed: number;
+  unconfirmed: number;
 }
 
 const DataContext = createContext({} as DataProviderData);
@@ -32,6 +42,7 @@ const DataContext = createContext({} as DataProviderData);
 const DataProvider: React.FC = ({ children }) => {
   const [data, setData] = useState({} as DataState);
   const [loaded, setLoaded] = useState(false);
+  const [loadingBalances, setLoadingBalances] = useState(false);
 
   useEffect(() => {
     async function loadStorageData(): Promise<void> {
@@ -47,66 +58,81 @@ const DataProvider: React.FC = ({ children }) => {
     loadStorageData();
   }, []);
 
-  const updateAddressAmount = useCallback(async (address: string) => {
+  const updateAddressAmount = useCallback(async (addresses: Address[]) => {
     try {
-      const response = await api.get(`address/${address}`);
-      const { funded_txo_sum, spent_txo_sum } = response.data.chain_stats;
+      setLoadingBalances(true);
+      const addressesQueryData = addresses.reduce((query, address) => {
+        return `${query} ${address.address} `;
+      }, '');
 
-      const balance = String((funded_txo_sum - spent_txo_sum) / 100000000);
+      const response = await api.post('/balance', {
+        addr: addressesQueryData,
+      });
+
+      const addressesUpdated = response.data.response.map(
+        ({ addr, confirmed, unconfirmed }: ResponseAddressData) => {
+          return {
+            address: addr,
+            confirmed,
+            unconfirmed,
+          };
+        },
+      );
 
       setData(oldData => {
         return {
           ...oldData,
           addresses: [
-            ...oldData.addresses.map(entry => {
+            ...oldData.addresses.map(address => {
               return {
-                ...entry,
-                amount: entry.address === address ? balance : entry.amount,
+                ...address,
+                ...addressesUpdated.find(
+                  (adr: { address: string }) => adr.address === address.address,
+                ),
               };
             }),
           ],
         };
       });
-
-      await AsyncStorage.setItem(
-        '@cryptowatcher:data',
-        JSON.stringify({
-          ...data,
-          addresses: [
-            ...data.addresses.map(entry => {
-              return {
-                ...entry,
-                amount: entry.address === address ? balance : entry.amount,
-              };
-            }),
-          ],
-        }),
-      );
+      setLoadingBalances(false);
     } catch (error) {
-      //
+      Alert.alert(
+        'Fail',
+        'The balance refresh failed, probably because you did more than 2 requests per second.',
+      );
     }
   }, []);
 
   const addAddress = async ({ address, coinName, coinImage }: Address) => {
-    setData(oldData => ({
-      ...oldData,
-      addresses: [
-        ...(oldData.addresses || []),
-        { address, amount: '0', coinImage, coinName },
-      ],
-    }));
-
-    await AsyncStorage.setItem(
-      '@cryptowatcher:data',
-      JSON.stringify({
-        ...data,
+    setData(oldData => {
+      return {
+        ...oldData,
         addresses: [
-          ...(data.addresses || []),
-          { address, amount: '0', coinImage, coinName },
+          ...(oldData.addresses || []),
+          { address, coinImage, coinName, confirmed: 0, unconfirmed: 0 },
         ],
-      }),
-    );
+      };
+    });
   };
+
+  const deleteAddress = async (address: string) => {
+    setData(oldData => {
+      return {
+        ...oldData,
+        addresses: [
+          ...oldData.addresses.filter(addr => addr.address !== address),
+        ],
+      };
+    });
+  };
+
+  useEffect(() => {
+    async function syncStorageWithState() {
+      await AsyncStorage.setItem('@cryptowatcher:data', JSON.stringify(data));
+    }
+
+    syncStorageWithState();
+  }, [data]);
 
   return (
     <DataContext.Provider
@@ -115,6 +141,8 @@ const DataProvider: React.FC = ({ children }) => {
         loaded,
         addAddress,
         updateAddressAmount,
+        deleteAddress,
+        loadingBalances,
       }}
     >
       {children}

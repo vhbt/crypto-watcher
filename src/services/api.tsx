@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://blockstream.info/api',
+  baseURL: 'https://www.blockonomics.co/api/',
+  headers: {
+    Authorization: 'Bearer mvfLUK0nSNKPST1SPjjtsBwMaJPY7PwJPNki2QSaKjA',
+  },
 });
 
 export default api;

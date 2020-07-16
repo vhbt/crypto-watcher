@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, GestureResponderEvent } from 'react-native';
 import { Container, CardInfo, Title, Description, Image } from './styles';
 
-interface AddAccountCardProps {
+interface AddAddressCardProps {
   colors?: [];
   title: string;
   description: string;
@@ -10,7 +10,7 @@ interface AddAccountCardProps {
   onPress?: (event: GestureResponderEvent) => void;
 }
 
-const AddAccountCard: React.FC<AddAccountCardProps> = ({
+const AddAddressCard: React.FC<AddAddressCardProps> = ({
   colors = ['#6D63EF', '#A1A3FF'],
   title,
   description,
@@ -34,4 +34,4 @@ const AddAccountCard: React.FC<AddAccountCardProps> = ({
   );
 };
 
-export default AddAccountCard;
+export default AddAddressCard;
