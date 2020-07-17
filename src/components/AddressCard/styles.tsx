@@ -5,7 +5,7 @@ export const Container = styled(LinearGradient)`
   padding: 12px;
   margin: 8px 12px;
   border-radius: 12px;
-  background-color: #fff;
+  background-color: ${props => props.theme.colors.inverted};
 `;
 
 export const DataContainer = styled.View`
@@ -27,14 +27,14 @@ export const CoinImage = styled.Image`
 `;
 
 export const Address = styled.Text`
-  color: #fff;
+  color: ${props => props.theme.colors.inverted};
   font-size: 18px;
   max-width: 80%;
   font-family: 'Karla_400Regular';
 `;
 
 export const Value = styled.Text`
-  color: #fff;
+  color: ${props => props.theme.colors.inverted};
   font-size: 24px;
   font-family: 'Karla_700Bold';
   margin-bottom: 10px;

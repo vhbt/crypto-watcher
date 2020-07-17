@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled from '../../constants/styled';
 
 export const Container = styled.View`
   padding: 25px;
@@ -8,7 +8,7 @@ export const Container = styled.View`
 
 export const Text = styled.Text`
   font-size: 24px;
-  color: #1c1c1c;
+  color: ${props => props.theme.colors.primary};
   font-family: 'Karla_700Bold';
 `;
 

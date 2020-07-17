@@ -11,5 +11,5 @@ export const Text = styled.Text`
   font-family: 'Karla_400Regular';
   font-size: 20px;
   text-align: center;
-  color: #1c1c1c;
+  color: ${props => props.theme.colors.primary};
 `;

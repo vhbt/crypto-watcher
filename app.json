@@ -11,6 +11,11 @@
     "ios": {
       "bundleIdentifier": "crypto-watcher"
     },
+    "expo": {
+      "name": "CryptoWatcher",
+      "slug": "crypto-watcher",
+      "sdkVersion": "38.0.0"
+    },
     "sourceExts": [
       "expo.ts",
       "expo.tsx",

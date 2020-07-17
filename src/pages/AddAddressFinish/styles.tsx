@@ -22,7 +22,7 @@ export const Back = styled.TouchableOpacity``;
 export const Card = styled.View`
   height: 100%;
   width: 100%;
-  background: #fff;
+  background-color: ${props => props.theme.colors.background};
   position: absolute;
   border-top-right-radius: 24px;
   border-top-left-radius: 24px;
@@ -31,12 +31,12 @@ export const Card = styled.View`
 `;
 
 export const CardTitle = styled.Text`
-  color: #8a8a8a;
+  color: ${props => props.theme.colors.secondary};
   margin-bottom: 15px;
 `;
 
 export const Title = styled.Text`
-  color: #fff;
+  color: ${props => props.theme.colors.inverted};
   font-family: 'Karla_700Bold';
   font-size: 16px;
   margin: 0 25px;

@@ -3,12 +3,14 @@ import { TextInputProps } from 'react-native';
 
 import { Container, TextInput } from './styles';
 
-type InputProps = TextInputProps;
+interface InputProps extends TextInputProps {
+  placeholderTextColor?: string;
+}
 
 const Input: React.FC<InputProps> = ({ ...rest }) => {
   return (
     <Container>
-      <TextInput placeholderTextColor="#8A8A8A" {...rest} />
+      <TextInput {...rest} />
     </Container>
   );
 };

@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useIsFocused } from '@react-navigation/native';
 
-import { Container } from './styles';
+import { SafeAreaView, Container } from './styles';
 
 import { useData } from '../../hooks/data';
 
@@ -11,16 +11,24 @@ import EmptyAddressList from '../../components/EmptyAddressList';
 import AddressCard from '../../components/AddressCard';
 
 const Dashboard: React.FC = () => {
-  const { addresses, loadingBalances } = useData();
+  const { addresses, updateAddressAmount, loadingBalances } = useData();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused && addresses.length > 0) {
+      updateAddressAmount(addresses);
+    }
+  }, [isFocused]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfcff' }}>
+    <SafeAreaView>
       <Container>
         <Header />
         <FlatList
           data={addresses}
           keyExtractor={item => item.address}
           ListEmptyComponent={<EmptyAddressList />}
+          style={{ paddingHorizontal: 10 }}
           renderItem={({ item }) => {
             return (
               <AddressCard

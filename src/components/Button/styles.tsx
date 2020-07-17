@@ -17,7 +17,7 @@ export const TouchableOpacity = styled.TouchableOpacity`
 `;
 
 export const Text = styled.Text`
-  color: #fff;
+  color: ${props => props.theme.colors.inverted};
   font-family: 'Karla_700Bold';
   font-size: 18px;
 `;

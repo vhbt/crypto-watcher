@@ -1,5 +1,4 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   useFonts,
@@ -21,7 +20,6 @@ export default function App(): JSX.Element {
       <AppProvider>
         <Routes />
       </AppProvider>
-      <StatusBar style="dark" backgroundColor="transparent" animated />
     </NavigationContainer>
   );
 }

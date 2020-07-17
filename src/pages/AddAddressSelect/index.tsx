@@ -1,8 +1,13 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
-import { Container, Title, CancelText, CancelButton } from './styles';
+import {
+  SafeAreaView,
+  Container,
+  Title,
+  CancelText,
+  CancelButton,
+} from './styles';
 
 import AddAddressCard from '../../components/AddAddressCard';
 
@@ -10,7 +15,7 @@ const AddAddressSelect: React.FC = () => {
   const { navigate, goBack } = useNavigation();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FCFCFF' }}>
+    <SafeAreaView>
       <Container>
         <CancelButton onPress={() => goBack()}>
           <CancelText>Cancel</CancelText>
