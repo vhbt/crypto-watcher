@@ -12,4 +12,4 @@ export const Text = styled.Text`
   font-family: 'Karla_700Bold';
 `;
 
-export const AddButton = styled.TouchableOpacity``;
+export const IconButton = styled.TouchableOpacity``;

@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export const useDarkMode = (): readonly [boolean, () => void] => {
+interface useDarkModeData {
+  isDarkMode: boolean;
+  toggleDarkMode(): void;
+}
+
+const ThemeContext = createContext({ isDarkMode: false } as useDarkModeData);
+
+const DarkModeProvider: React.FC = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(old => {
-      AsyncStorage.setItem('@cryptowatcher:darkMode', JSON.stringify(!old));
-
-      return !old;
-    });
-  };
 
   useEffect(() => {
     async function getDarkModeFromStorage() {
@@ -27,5 +26,25 @@ export const useDarkMode = (): readonly [boolean, () => void] => {
     getDarkModeFromStorage();
   });
 
-  return [isDarkMode, toggleDarkMode] as const;
+  const toggleDarkMode = () => {
+    setIsDarkMode(old => {
+      AsyncStorage.setItem('@cryptowatcher:darkMode', JSON.stringify(!old));
+
+      return !old;
+    });
+  };
+
+  return (
+    <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };
+
+const useDarkMode = (): useDarkModeData => {
+  const context = useContext(ThemeContext);
+
+  return context;
+};
+
+export { DarkModeProvider, useDarkMode };

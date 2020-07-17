@@ -16,7 +16,7 @@ const App = createStackNavigator();
 
 const Routes: React.FC = () => {
   const { loaded } = useData();
-  const [isDarkMode] = useDarkMode();
+  const { isDarkMode } = useDarkMode();
 
   if (!loaded) {
     return <View />;
