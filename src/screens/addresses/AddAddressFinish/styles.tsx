@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
   flex: 1;
@@ -9,7 +10,7 @@ export const Container = styled.View`
 export const Header = styled(LinearGradient)`
   height: 100%;
   position: relative;
-  padding: 20px;
+  padding: ${getStatusBarHeight()}px 20px;
 `;
 
 export const HeaderItems = styled.View`
@@ -26,7 +27,7 @@ export const Card = styled.View`
   position: absolute;
   border-top-right-radius: 24px;
   border-top-left-radius: 24px;
-  margin-top: ${Dimensions.get('window').width * 0.25}px;
+  margin-top: ${getStatusBarHeight() + Dimensions.get('window').width * 0.2}px;
   padding: 30px 25px;
 `;
 

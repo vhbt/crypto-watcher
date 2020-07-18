@@ -4,7 +4,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 
-import { useData } from '../../hooks/data';
+import { useData } from '../../../hooks/data';
 
 import {
   Container,
@@ -16,8 +16,8 @@ import {
   Title,
 } from './styles';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
 
 interface RouteParams {
   colors: [];

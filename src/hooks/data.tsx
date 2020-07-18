@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  createContext,
-  useCallback,
-} from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { Alert } from 'react-native';
@@ -20,15 +14,18 @@ interface Address {
 
 interface DataState {
   addresses: Address[];
+  apiKey: string;
 }
 
 interface DataProviderData {
   addresses: Address[];
-  loaded: boolean;
+  apiKey: string;
+  loadedData: boolean;
   loadingBalances: boolean;
   addAddress(data: Address): Promise<void>;
   updateAddressAmount(address: Address[]): Promise<void>;
   deleteAddress(address: string): Promise<void>;
+  setApiKey(apiKey: string): Promise<void>;
 }
 
 interface ResponseAddressData {
@@ -41,26 +38,34 @@ const DataContext = createContext({} as DataProviderData);
 
 const DataProvider: React.FC = ({ children }) => {
   const [data, setData] = useState({} as DataState);
-  const [loaded, setLoaded] = useState(false);
+  const [loadedData, setLoadedData] = useState(false);
   const [loadingBalances, setLoadingBalances] = useState(false);
+  let updatedData = {} as DataState;
 
   useEffect(() => {
     async function loadStorageData(): Promise<void> {
       const dataStored = await AsyncStorage.getItem('@cryptowatcher:data');
 
       if (dataStored) {
-        setData(JSON.parse(dataStored));
+        const parsed = JSON.parse(dataStored);
+        updatedData = parsed;
+
+        api.defaults.headers.Authorization = `Bearer ${parsed.apiKey}`;
+
+        setData(parsed);
       }
 
-      setLoaded(true);
+      setLoadedData(true);
     }
 
     loadStorageData();
   }, []);
 
-  const updateAddressAmount = useCallback(async (addresses: Address[]) => {
+  const updateAddressAmount = async (addresses: Address[]) => {
     try {
+      if (!data.apiKey && !updatedData.apiKey) return;
       setLoadingBalances(true);
+
       const addressesQueryData = addresses.reduce((query, address) => {
         return `${query} ${address.address} `;
       }, '');
@@ -80,6 +85,24 @@ const DataProvider: React.FC = ({ children }) => {
       );
 
       setData(oldData => {
+        AsyncStorage.setItem(
+          '@cryptowatcher:data',
+          JSON.stringify({
+            ...oldData,
+            addresses: [
+              ...oldData.addresses.map(address => {
+                return {
+                  ...address,
+                  ...addressesUpdated.find(
+                    (adr: { address: string }) =>
+                      adr.address === address.address,
+                  ),
+                };
+              }),
+            ],
+          }),
+        );
+
         return {
           ...oldData,
           addresses: [
@@ -96,15 +119,36 @@ const DataProvider: React.FC = ({ children }) => {
       });
       setLoadingBalances(false);
     } catch (error) {
-      Alert.alert(
-        'Fail',
-        'The balance refresh failed, probably because you did more than 2 requests per second.',
-      );
+      if (
+        error.response.data.message === 'This function requires you to login'
+      ) {
+        Alert.alert(
+          'Fail',
+          'The balance request failed because your API key is empty or is invalid.',
+        );
+      } else {
+        Alert.alert(
+          'Fail',
+          'The balance request failed, probably because of too many requests. Please wait a few seconds.',
+        );
+      }
+      setLoadingBalances(false);
     }
-  }, []);
+  };
 
   const addAddress = async ({ address, coinName, coinImage }: Address) => {
     setData(oldData => {
+      AsyncStorage.setItem(
+        '@cryptowatcher:data',
+        JSON.stringify({
+          ...oldData,
+          addresses: [
+            ...(oldData.addresses || []),
+            { address, coinImage, coinName, confirmed: 0, unconfirmed: 0 },
+          ],
+        }),
+      );
+
       return {
         ...oldData,
         addresses: [
@@ -117,6 +161,16 @@ const DataProvider: React.FC = ({ children }) => {
 
   const deleteAddress = async (address: string) => {
     setData(oldData => {
+      AsyncStorage.setItem(
+        '@cryptowatcher:data',
+        JSON.stringify({
+          ...oldData,
+          addresses: [
+            ...oldData.addresses.filter(addr => addr.address !== address),
+          ],
+        }),
+      );
+
       return {
         ...oldData,
         addresses: [
@@ -126,23 +180,36 @@ const DataProvider: React.FC = ({ children }) => {
     });
   };
 
-  useEffect(() => {
-    async function syncStorageWithState() {
-      await AsyncStorage.setItem('@cryptowatcher:data', JSON.stringify(data));
-    }
+  const setApiKey = async (apiKey: string) => {
+    setData(oldData => {
+      AsyncStorage.setItem(
+        '@cryptowatcher:data',
+        JSON.stringify({
+          ...oldData,
+          apiKey,
+        }),
+      );
 
-    syncStorageWithState();
-  }, [data]);
+      api.defaults.headers.Authorization = `Bearer ${apiKey}`;
+
+      return {
+        ...oldData,
+        apiKey,
+      };
+    });
+  };
 
   return (
     <DataContext.Provider
       value={{
         addresses: data.addresses || [],
-        loaded,
+        apiKey: data.apiKey,
+        loadedData,
         addAddress,
         updateAddressAmount,
         deleteAddress,
         loadingBalances,
+        setApiKey,
       }}
     >
       {children}

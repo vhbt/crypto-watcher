@@ -9,7 +9,7 @@ import {
   CancelButton,
 } from './styles';
 
-import AddAddressCard from '../../components/AddAddressCard';
+import AddAddressCard from '../../../components/AddAddressCard';
 
 const AddAddressSelect: React.FC = () => {
   const { navigate, goBack } = useNavigation();

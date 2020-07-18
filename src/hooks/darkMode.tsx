@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 interface useDarkModeData {
   isDarkMode: boolean;
+  loadedDarkMode: boolean;
   toggleDarkMode(): void;
 }
 
@@ -10,6 +11,7 @@ const ThemeContext = createContext({ isDarkMode: false } as useDarkModeData);
 
 const DarkModeProvider: React.FC = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [loadedDarkMode, setLoadedDarkMode] = useState(false);
 
   useEffect(() => {
     async function getDarkModeFromStorage() {
@@ -21,6 +23,8 @@ const DarkModeProvider: React.FC = ({ children }) => {
         const darkModeParsed = JSON.parse(darkModeStored);
         setIsDarkMode(darkModeParsed);
       }
+
+      setLoadedDarkMode(true);
     }
 
     getDarkModeFromStorage();
@@ -35,7 +39,9 @@ const DarkModeProvider: React.FC = ({ children }) => {
   };
 
   return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+    <ThemeContext.Provider
+      value={{ isDarkMode, loadedDarkMode, toggleDarkMode }}
+    >
       {children}
     </ThemeContext.Provider>
   );

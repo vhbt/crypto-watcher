@@ -26,6 +26,7 @@
     "@expo/vector-icons": "^10.0.0",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/bottom-tabs": "^5.7.1",
     "@react-navigation/native": "^5.7.0",
     "@react-navigation/stack": "^5.7.0",
     "axios": "^0.19.2",
@@ -40,12 +41,14 @@
     "react-dom": "~16.11.0",
     "react-native": "~0.62.2",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-iphone-x-helper": "^1.2.1",
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^3.1.1",
     "react-native-screens": "^2.9.0",
     "react-native-svg": "12.1.0",
     "react-native-unimodules": "~0.10.1",
     "react-native-web": "~0.11.7",
+    "sentry-expo": "^2.1.2",
     "styled-components": "^5.1.1"
   },
   "devDependencies": {
@@ -72,7 +75,8 @@
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "react-native-svg-transformer": "^0.14.3",
-    "react-test-renderer": "~16.11.0"
+    "react-test-renderer": "~16.11.0",
+    "typescript": "^3.9.7"
   },
   "jest": {
     "preset": "react-native"

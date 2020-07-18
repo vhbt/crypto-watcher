@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
-import { SafeAreaView as SAV } from 'react-native-safe-area-context';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
-export const SafeAreaView = styled(SAV)`
+export const SafeAreaView = styled.SafeAreaView`
   flex: 1;
+  padding-top: ${getStatusBarHeight()}px;
   background-color: ${props => props.theme.colors.background};
 `;
 
@@ -15,7 +16,7 @@ export const Container = styled.View`
 export const Title = styled.Text`
   color: ${props => props.theme.colors.primary};
   font-family: 'Karla_700Bold';
-  font-size: 28px;
+  font-size: 24px;
   margin-bottom: 20px;
 `;
 
