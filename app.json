@@ -9,7 +9,6 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "image": "./assets/splash.png",
     "ios": {
       "bundleIdentifier": "crypto-watcher"
     },

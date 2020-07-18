@@ -32,7 +32,7 @@ const AddressesDashboard: React.FC = () => {
             !apiKey ? (
               <NoApiKeyView>
                 <NoApiKeyText>
-                  Alert: Please setup a Blockonomics API key on
+                  P.S: You need to setup a Blockonomics API key on
                   &rdquo;Settings&rdquo; to be able to see and refresh your
                   balances.
                 </NoApiKeyText>

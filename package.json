@@ -16,8 +16,7 @@
   },
   "lint-staged": {
     "src/**/*.tsx": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
   },
   "dependencies": {
@@ -34,7 +33,7 @@
     "expo-asset": "~8.1.7",
     "expo-font": "~8.2.1",
     "expo-linear-gradient": "~8.2.1",
-    "expo-splash-screen": "^0.3.1",
+    "expo-splash-screen": "0.4.0",
     "expo-status-bar": "^1.0.0",
     "expo-updates": "^0.2.11",
     "react": "~16.11.0",
