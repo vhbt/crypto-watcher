@@ -50,12 +50,10 @@ const MainTabNavigator: React.FC = () => {
   const { isDarkMode, loadedDarkMode } = useDarkMode();
   const activeTheme = isDarkMode ? dark : light;
 
-  async function appLoadFinished() {
-    await SplashScreen.hideAsync();
-  }
-
   if (loadedData && loadedDarkMode) {
-    appLoadFinished();
+    setTimeout(async () => {
+      await SplashScreen.hideAsync();
+    }, 100);
   }
 
   return (

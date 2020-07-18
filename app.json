@@ -9,13 +9,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "image": "./assets/splash.png",
     "ios": {
       "bundleIdentifier": "crypto-watcher"
     },
     "hooks": {
       "postPublish": [
         {
-          "file": "sentry-expo/upload-sourcemaps",
+          "file": "sentry-expo/upload-sourcemaps"
         }
       ]
     }
